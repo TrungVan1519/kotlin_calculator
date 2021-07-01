@@ -9,8 +9,8 @@ import java.lang.ArithmeticException
 
 class MainActivity : AppCompatActivity() {
 
-    var lastNumeric = false
-    var lastDot = false
+    private var lastNumeric = false
+    private var lastDot = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,32 +55,42 @@ class MainActivity : AppCompatActivity() {
                             value = value.substring(1) // ex: "-12 - 1" -> "12 - 1"
                         }
 
-                        if (value.contains("+")) {
-                            delimiter = "+"
-                        } else if (value.contains("-")) {
-                            delimiter = "-"
-                        } else if (value.contains("*")) {
-                            delimiter = "*"
-                        } else if (value.contains("/")) {
-                            delimiter = "/"
+                        when {
+                            value.contains("+") -> {
+                                delimiter = "+"
+                            }
+                            value.contains("-") -> {
+                                delimiter = "-"
+                            }
+                            value.contains("*") -> {
+                                delimiter = "*"
+                            }
+                            value.contains("/") -> {
+                                delimiter = "/"
+                            }
                         }
 
                         val splitValues = value.split(delimiter)
                         var one = splitValues[0]
                         val two = splitValues[1]
 
-                        if (!prefix.isEmpty()) {
+                        if (prefix.isNotEmpty()) {
                             one = prefix + one
                         }
 
-                        if (delimiter.contentEquals("+")) {
-                            result = (one.toDouble() + two.toDouble()).toString()
-                        } else if (delimiter.contentEquals("-")) {
-                            result = (one.toDouble() - two.toDouble()).toString()
-                        } else if (delimiter.contentEquals("*")) {
-                            result = (one.toDouble() * two.toDouble()).toString()
-                        } else if (delimiter.contentEquals("/")) {
-                            result = (one.toDouble() / two.toDouble()).toString()
+                        when {
+                            delimiter.contentEquals("+") -> {
+                                result = (one.toDouble() + two.toDouble()).toString()
+                            }
+                            delimiter.contentEquals("-") -> {
+                                result = (one.toDouble() - two.toDouble()).toString()
+                            }
+                            delimiter.contentEquals("*") -> {
+                                result = (one.toDouble() * two.toDouble()).toString()
+                            }
+                            delimiter.contentEquals("/") -> {
+                                result = (one.toDouble() / two.toDouble()).toString()
+                            }
                         }
 
                         txtResult.text = result
